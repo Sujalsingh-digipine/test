@@ -1,9 +1,5 @@
-import { Avatar, Dropdown, Space, Button, Tooltip } from "antd";
-import {
-  LogoutOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { Avatar, Dropdown, Space, Button, Tooltip, Select } from "antd";
+import { LogoutOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { AiOutlineHome } from "react-icons/ai";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -28,12 +24,6 @@ const Navbar = () => {
 
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     switch (key) {
-      case "profile":
-        navigation("/profile");
-        break;
-      case "settings":
-        navigation("/settings");
-        break;
       case "logout":
         localStorage.clear();
         navigation("/auth/login");
@@ -42,9 +32,6 @@ const Navbar = () => {
   };
 
   const items: MenuProps["items"] = [
-    { label: "Profile", key: "profile", icon: <UserOutlined /> },
-    { label: "Settings", key: "settings", icon: <SettingOutlined /> },
-    { type: "divider" },
     { label: "Logout", key: "logout", icon: <LogoutOutlined />, danger: true },
   ];
 
@@ -105,7 +92,27 @@ const Navbar = () => {
           </Tooltip>
         </Button>
       </div>
-
+      <Select
+        showSearch
+        style={{ width: 200 }}
+        placeholder="Search to Select"
+        optionFilterProp="label"
+        filterSort={(optionA, optionB) =>
+          (optionA?.label ?? "")
+            .toLowerCase()
+            .localeCompare((optionB?.label ?? "").toLowerCase())
+        }
+        options={[
+          {
+            value: "1",
+            label: "Sorted By Upvotes",
+          },
+          {
+            value: "2",
+            label: "Sorted By Downvotes",
+          },
+        ]}
+      />
       <div className="flex items-center gap-4">
         <Dropdown
           menu={{ items, onClick: handleMenuClick }}
